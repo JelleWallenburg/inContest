@@ -10,3 +10,18 @@ a {
 h1 {
   color: 15px;
 }
+
+#container {
+  display: flex;
+  flex: row;
+}
+
+#nav {
+  display: flex;
+  flex-direction: column;
+  width: 10%;
+}
+
+#container-sm {
+  width: auto;
+}

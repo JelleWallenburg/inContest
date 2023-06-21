@@ -7,10 +7,22 @@
     <title>{{appTitle}}</title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
-
   <body>
-
-    {{{body}}}
+    <div id="container">
+      <header id="nav">
+        <ul>
+          <li>
+            <a href="/portfolio">My portfolio</a>
+          </li>
+          <li>
+            <a href="/competition">Competition</a>
+          </li>
+          <li><a href="/allportfolio">All portfolio</a></li>
+          <li><form action="/auth/logout" method="get"><button type="submit">Log out</button></form></li>
+        </ul>
+      </header>
+      <div id="container-sm"> {{{body}}}</div>
+    </div>
 
     <script src="/js/script.js"></script>
   </body>

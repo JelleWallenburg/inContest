@@ -17,7 +17,7 @@ const isLoggedIn = require("../middleware/isLoggedIn");
 
 // GET /auth/signup
 router.get("/signup", isLoggedOut, (req, res) => {
-  res.render("auth/signup");
+  res.render("auth/signup", { layout: false });
 });
 
 // POST /auth/signup
@@ -29,14 +29,15 @@ router.post("/signup", isLoggedOut, (req, res) => {
     res.status(400).render("auth/signup", {
       errorMessage:
         "All fields are mandatory. Please provide your username, email and password.",
+      layout: false,
     });
-
     return;
   }
 
   if (password.length < 6) {
     res.status(400).render("auth/signup", {
       errorMessage: "Your password needs to be at least 6 characters long.",
+      layout: false,
     });
 
     return;
@@ -68,11 +69,15 @@ router.post("/signup", isLoggedOut, (req, res) => {
     })
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {
-        res.status(500).render("auth/signup", { errorMessage: error.message });
+        res.status(500).render("auth/signup", {
+          errorMessage: error.message,
+          layout: false,
+        });
       } else if (error.code === 11000) {
         res.status(500).render("auth/signup", {
           errorMessage:
             "Username and email need to be unique. Provide a valid username or email.",
+          layout: false,
         });
       } else {
         next(error);
@@ -82,7 +87,7 @@ router.post("/signup", isLoggedOut, (req, res) => {
 
 // GET /auth/login
 router.get("/login", isLoggedOut, (req, res) => {
-  res.render("auth/login");
+  res.render("auth/login", { layout: false });
 });
 
 // POST /auth/login
@@ -94,6 +99,7 @@ router.post("/login", isLoggedOut, (req, res, next) => {
     res.status(400).render("auth/login", {
       errorMessage:
         "All fields are mandatory. Please provide username, email and password.",
+      layout: false,
     });
 
     return;
@@ -104,6 +110,7 @@ router.post("/login", isLoggedOut, (req, res, next) => {
   if (password.length < 6) {
     return res.status(400).render("auth/login", {
       errorMessage: "Your password needs to be at least 6 characters long.",
+      layout: false,
     });
   }
 
@@ -112,9 +119,10 @@ router.post("/login", isLoggedOut, (req, res, next) => {
     .then((user) => {
       // If the user isn't found, send an error message that user provided wrong credentials
       if (!user) {
-        res
-          .status(400)
-          .render("auth/login", { errorMessage: "Wrong credentials." });
+        res.status(400).render("auth/login", {
+          errorMessage: "Wrong credentials.",
+          layout: false,
+        });
         return;
       }
 
@@ -123,9 +131,10 @@ router.post("/login", isLoggedOut, (req, res, next) => {
         .compare(password, user.password)
         .then((isSamePassword) => {
           if (!isSamePassword) {
-            res
-              .status(400)
-              .render("auth/login", { errorMessage: "Wrong credentials." });
+            res.status(400).render("auth/login", {
+              errorMessage: "Wrong credentials.",
+              layout: false,
+            });
             return;
           }
 
@@ -134,7 +143,7 @@ router.post("/login", isLoggedOut, (req, res, next) => {
           // Remove the password field
           delete req.session.currentUser.password;
 
-          res.redirect("/");
+          res.redirect("/portfolio");
         })
         .catch((err) => next(err)); // In this case, we send error handling to the error handling middleware.
     })
@@ -149,7 +158,7 @@ router.get("/logout", isLoggedIn, (req, res) => {
       return;
     }
 
-    res.redirect("/");
+    res.redirect("/auth/login");
   });
 });
 
