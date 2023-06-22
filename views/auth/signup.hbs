@@ -1,24 +1,39 @@
-<div id="form">
-  <h2>Sign Up</h2>
-  <form action="/auth/signup" method="POST">
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>inContest</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <div id="form">
+    <a href="/"><button>Back</button></a>
+    <a href="/auth/login"><button>Login</button></a>
 
-    <label> Username
-      <input type="text" name="username" placeholder="Your username" />
-    </label>
+    <h2>Sign Up</h2>
+    <form action="/auth/signup" method="POST">
 
-    <label> Email
-      <input type="email" name="email" placeholder="Your email" />
-    </label>
+      <label>
+        Username
+        <input type="text" name="username" placeholder="Your username" />
+      </label>
 
-    <label> Password
-      <input type="password" name="password" placeholder="Your password" />
-    </label>
+      <label>
+        Email
+        <input type="email" name="email" placeholder="Your email" />
+      </label>
 
-    <button type="submit">Sign Up</button>
+      <label>
+        Password
+        <input type="password" name="password" placeholder="Your password" />
+      </label>
 
+      <button type="submit">Sign Up</button>
 
-    {{#if errorMessage}}
-      <p class="error">{{errorMessage}}</p>
-    {{/if}}
-  </form>
-</div>
+      {{#if errorMessage}}
+        <p class="error">{{errorMessage}}</p>
+      {{/if}}
+    </form>
+  </div>
+
+</html>

@@ -1,8 +1,9 @@
 {
-  "name": "inContest",
+  "name": "incontest",
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "seed": "node ./bin/seed.js",
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
