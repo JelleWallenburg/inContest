@@ -5,11 +5,11 @@ const { Schema, model } = require("mongoose");
 const performanceSchema = new Schema(
   {
     createdBy: { type: Schema.Types.ObjectId, ref: "User" },
-    portfolio: [{ type: Schema.Types.ObjectId, ref: "Portfolio" }],
-    date: Date,
+    // portfolio: [{ type: Schema.Types.ObjectId, ref: "Portfolio" }], -> I do not think this is necessary
+    referenceDate: Date,
     totalAccount: { type: Number, required: true },
-    totalResults: { type: Number, required: true },
     totalPortfolio: { type: Number, required: true },
+    totalResult: { type: Number, required: true }
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

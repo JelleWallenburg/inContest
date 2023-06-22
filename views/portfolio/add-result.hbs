@@ -1,0 +1,20 @@
+<div id= 'add-result'>
+    <form action="/portfolio/add-result" method= "POST">
+        <label>Reference date
+            <input list= "portfolio-reference-dates" name="referenceDate" placeholder="Reference date">
+            <datalist id= "portfolio-reference-dates">
+                <option value= "2023-06-10">
+                <option value= "2023-06-24">
+        </label>
+        <label> Total account
+            <input type="text" name="totalAccount" placeholder="Your total account" />
+        </label>
+        <label> Total portfolio value
+            <input type="text" name="totalPortfolio" placeholder="Your total portfolio value" />
+        </label>
+        <label> Total result
+            <input type="text" name="totalResult" placeholder="Your total result" />
+        </label>
+        <button type="submit">Submit result</button>
+    </form>
+</div>

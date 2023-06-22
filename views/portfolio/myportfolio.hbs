@@ -1,1 +1,28 @@
 <h1>Welcome! {{user.username}}</h1>
+
+{{!-- to do: create portfolio overview --}}
+<div id='portfolio-overview'>
+    <h2>Portfolio overview</h2> 
+</div>
+
+<div id='portfolio-crud'>
+    <h2>Create or update observations</h2>
+    <ul>
+        <li><a href= 'portfolio/add-result'>Add new results</a></li>
+        <li><a href= 'portfolio/update-result'>Update past results</a></li>
+    </ul>
+</div>
+
+<div id='portfolio-results'>
+    <h2>Overview of observations</h2>
+    {{#each performances}}
+        <ul>
+            <li>{{this.referenceDate}}</li>
+            <li>{{this.totalAccount}}</li>
+            <li>{{this.totalPortfolio}}</li>
+            <li>{{this.totalResult}}</li>
+        </ul>
+    <br>
+    {{/each}}
+</div>
+
