@@ -56,7 +56,7 @@ router.get("/all", (req, res, next) => {
     .then((allPortfolio) => {
       console.log()
       res.render("portfolio/all-portfolio");
-
+      
     })
     .catch((err) => console.log(err));
 });
