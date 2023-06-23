@@ -5,6 +5,7 @@
             <datalist id= "portfolio-reference-dates">
                 <option value= "2023-06-10">
                 <option value= "2023-06-24">
+                <option value= "2023-07-08">
         </label>
         <label> Total account
             <input type="text" name="totalAccount" placeholder="Your total account" />
@@ -18,3 +19,10 @@
         <button type="submit">Submit result</button>
     </form>
 </div>
+
+<div>
+    {{#if errorMessage}}
+        <p class="error">{{errorMessage}}</p>
+    {{/if}}
+</div>
+
