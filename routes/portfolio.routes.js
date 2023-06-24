@@ -27,24 +27,40 @@ router.get("/add-result", isLoggedIn, (req, res, next) => {
 router.post("/add-result", isLoggedIn, (req, res, next) => {
   const currentUser = req.session.currentUser;
   const { referenceDate, totalAccount, totalPortfolio, totalResult } = req.body;
+  
   //query all the performances on the reference data and
-
   Portfolio.find({createdBy:currentUser._id, referenceDate: '2023-06-10T00:00:00.000Z'})
-  .then(oldObservation => console.log("data", oldObservation));
-  let totalReturn = 0;
-  totalReturn= newObservation.totalResult - oldObservation.totalResult
-  console.log("totalReturn", totalReturn)
-
-  Portfolio.create({createdBy:currentUser._id,referenceDate: referenceDate, totalAccount:totalAccount, totalPortfolio:totalPortfolio, totalResult:totalResult})
-  .then(newObservation =>{
-    console.log("observation added")
-
-    res.redirect("/portfolio")
-    })
-    .catch((error) => {
-      console.log("observation already existing");
-      res.redirect("/portfolio");
-    });
+  .then(oldObservation => {
+    console.log("this is the output", oldObservation)
+    // console.log("to add", currentUser._id, referenceDate, totalAccount, totalPortfolio, totalResult)
+    // console.log("type of old observation", typeof oldObservation)
+    // console.log("total223", test)
+    if(oldObservation.length==0){
+      console.log('create new one')
+      let totalReturn= 0;
+      Portfolio.create({
+        createdBy:currentUser._id,
+        referenceDate: referenceDate, 
+        totalAccount:totalAccount, 
+        totalPortfolio:totalPortfolio, 
+        totalResult:totalResult,
+        totalReturn:totalReturn})
+    } else {
+      console.log("it works", oldObservation[0].totalResult);
+      console.log("total result new observation", totalResult);
+      let totalReturn= totalResult - oldObservation[0].totalResult;
+      return Portfolio.create({
+        createdBy:currentUser._id,
+        referenceDate: referenceDate, 
+        totalAccount:totalAccount, 
+        totalPortfolio:totalPortfolio, 
+        totalResult:totalResult,
+        totalReturn:totalReturn})
+    }
+  })
+  .catch(error => {
+    console.log("error",error)
+  });
 });
 
 // GET //portfolio/update-results
