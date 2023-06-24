@@ -38,28 +38,39 @@ router.post("/add-result", isLoggedIn, (req, res, next) => {
     if(oldObservation.length==0){
       console.log('create new one')
       let totalReturn= 0;
+      let percentageReturn= 0;
       Portfolio.create({
         createdBy:currentUser._id,
         referenceDate: referenceDate, 
         totalAccount:totalAccount, 
         totalPortfolio:totalPortfolio, 
         totalResult:totalResult,
-        totalReturn:totalReturn})
+        totalReturn:totalReturn,
+        percentageReturn: percentageReturn
+      })
     } else {
       console.log("it works", oldObservation[0].totalResult);
       console.log("total result new observation", totalResult);
       let totalReturn= totalResult - oldObservation[0].totalResult;
+      let percentageReturn= totalReturn/totalAccount;
       return Portfolio.create({
         createdBy:currentUser._id,
         referenceDate: referenceDate, 
         totalAccount:totalAccount, 
         totalPortfolio:totalPortfolio, 
         totalResult:totalResult,
-        totalReturn:totalReturn})
+        totalReturn:totalReturn,
+        percentageReturn: percentageReturn})
     }
+    res.render("portfolio/add-result",
+      {errorMessage: "Results updated"})
   })
   .catch(error => {
     console.log("error",error)
+    res.render("portfolio/add-result", {
+      errorMessage:
+        "Results are not updated because an observation already exist."
+    });
   });
 });
 

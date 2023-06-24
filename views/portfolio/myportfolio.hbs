@@ -17,11 +17,12 @@
     <h2>Overview of observations</h2>
     {{#each performances}}
         <ul>
-            <li>{{this.referenceDate}}</li>
-            <li>{{this.totalAccount}}</li>
-            <li>{{this.totalPortfolio}}</li>
-            <li>{{this.totalResult}}</li>
-            <li>{{this.totalReturn}}</li>
+            <li>Date: {{this.referenceDate}}</li>
+            <li>Total Account: {{this.totalAccount}}</li>
+            <li>Total Portfolio: {{this.totalPortfolio}}</li>
+            <li>Total Result: {{this.totalResult}}</li>
+            <li>Total Return: {{this.totalReturn}}</li>
+            <li>Percentage Return: {{this.percentageReturn}}</li>
         </ul>
     <br>
     {{/each}}
