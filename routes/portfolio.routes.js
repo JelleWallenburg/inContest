@@ -29,9 +29,17 @@ router.post("/add-result", isLoggedIn, (req, res, next) =>{
   const currentUser = req.session.currentUser;
   const {referenceDate, totalAccount, totalPortfolio, totalResult}=req.body;
   //query all the performances on the reference data and
+
+  Portfolio.find({createdBy:currentUser._id, referenceDate: '2023-06-10T00:00:00.000Z'})
+  .then(oldObservation => console.log("data", oldObservation));
+  let totalReturn = 0;
+  totalReturn= newObservation.totalResult - oldObservation.totalResult
+  console.log("totalReturn", totalReturn)
+
   Portfolio.create({createdBy:currentUser._id,referenceDate: referenceDate, totalAccount:totalAccount, totalPortfolio:totalPortfolio, totalResult:totalResult})
-  .then(added =>{
+  .then(newObservation =>{
     console.log("observation added")
+
     res.redirect("/portfolio")
     })
   .catch(error=> {
