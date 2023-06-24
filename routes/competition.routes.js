@@ -7,8 +7,12 @@ const isLoggedIn = require("../middleware/isLoggedIn");
 const Portfolio = require("../models/Portfolio.model");
 const Competiion = require("../models/Competition.model");
 
-router.get("/", isLoggedIn, (req, res, next) => {
-    res.render("competition/all-competitions");
+router.get("/competition", isLoggedIn, (req, res, next) => {
+  res.render("competition/all-competitions");
+});
+
+router.get("/new-competition", isLoggedIn, (req, res, next) => {
+    res.render("competition/new-competition");
 });
 
 module.exports = router;
