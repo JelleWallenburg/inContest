@@ -4,12 +4,12 @@ const { Schema, model } = require("mongoose");
 
 const portfolioSchema = new Schema(
   {
-    user: { type: Schema.Types.ObjectId, ref: "User" },
-    portfolioDescription: {
-      type: String,
-    },
-    competition: [{ type: Schema.Types.ObjectId, ref: "Competition" }],
-    sectionPerformance: [{ type: Schema.Types.ObjectId, ref: "Performance" }],
+    createdBy: { type: Schema.Types.ObjectId, ref: "User" },
+    referenceDate: {type: Date},
+    totalAccount: { type: Number, required: true },
+    totalPortfolio: { type: Number, required: true },
+    totalResult: { type: Number, required: true },
+    totalReturn: {type: Number}
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
@@ -17,6 +17,9 @@ const portfolioSchema = new Schema(
   }
 );
 
-const Portfolio = model("Portfoilio", portfolioSchema);
+//Create unique compound index
+portfolioSchema.index({createdBy: 1, referenceDate: 1},{unique: true});
+
+const Portfolio = model("Portfolio", portfolioSchema);
 
 module.exports = Portfolio;
