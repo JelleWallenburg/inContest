@@ -29,6 +29,7 @@ router.post("/add-result", isLoggedIn, (req, res, next) => {
   const { referenceDate, totalAccount, totalPortfolio, totalResult } = req.body;
 
   //query all the performances on the reference data and
+
   Portfolio.find({createdBy:currentUser._id, referenceDate: '2023-06-10T00:00:00.000Z'})
   .then(oldObservation => {
     console.log("this is the output", oldObservation)
