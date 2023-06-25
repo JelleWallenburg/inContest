@@ -9,7 +9,8 @@ const portfolioSchema = new Schema(
     totalAccount: { type: Number, required: true },
     totalPortfolio: { type: Number, required: true },
     totalResult: { type: Number, required: true },
-    totalReturn: {type: Number}
+    totalReturn: {type: Number},
+    percentageReturn: {type: Number}
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

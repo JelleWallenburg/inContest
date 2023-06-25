@@ -29,43 +29,50 @@ router.post("/add-result", isLoggedIn, (req, res, next) => {
   const { referenceDate, totalAccount, totalPortfolio, totalResult } = req.body;
 
   //query all the performances on the reference data and
-  Portfolio.find({
-    createdBy: currentUser._id,
-    referenceDate: "2023-06-10T00:00:00.000Z",
+
+  Portfolio.find({createdBy:currentUser._id, referenceDate: '2023-06-10T00:00:00.000Z'})
+  .then(oldObservation => {
+    console.log("this is the output", oldObservation)
+    // console.log("to add", currentUser._id, referenceDate, totalAccount, totalPortfolio, totalResult)
+    // console.log("type of old observation", typeof oldObservation)
+    // console.log("total223", test)
+    if(oldObservation.length==0){
+      console.log('create new one')
+      let totalReturn= 0;
+      let percentageReturn= 0;
+      Portfolio.create({
+        createdBy:currentUser._id,
+        referenceDate: referenceDate, 
+        totalAccount:totalAccount, 
+        totalPortfolio:totalPortfolio, 
+        totalResult:totalResult,
+        totalReturn:totalReturn,
+        percentageReturn: percentageReturn
+      })
+    } else {
+      console.log("it works", oldObservation[0].totalResult);
+      console.log("total result new observation", totalResult);
+      let totalReturn= totalResult - oldObservation[0].totalResult;
+      let percentageReturn= totalReturn/totalAccount;
+      return Portfolio.create({
+        createdBy:currentUser._id,
+        referenceDate: referenceDate, 
+        totalAccount:totalAccount, 
+        totalPortfolio:totalPortfolio, 
+        totalResult:totalResult,
+        totalReturn:totalReturn,
+        percentageReturn: percentageReturn})
+    }
+    res.render("portfolio/add-result",
+      {errorMessage: "Results updated"})
   })
-    .then((oldObservation) => {
-      console.log("this is the output", oldObservation);
-      // console.log("to add", currentUser._id, referenceDate, totalAccount, totalPortfolio, totalResult)
-      // console.log("type of old observation", typeof oldObservation)
-      // console.log("total223", test)
-      if (oldObservation.length == 0) {
-        console.log("create new one");
-        let totalReturn = 0;
-        Portfolio.create({
-          createdBy: currentUser._id,
-          referenceDate: referenceDate,
-          totalAccount: totalAccount,
-          totalPortfolio: totalPortfolio,
-          totalResult: totalResult,
-          totalReturn: totalReturn,
-        });
-      } else {
-        console.log("it works", oldObservation[0].totalResult);
-        console.log("total result new observation", totalResult);
-        let totalReturn = totalResult - oldObservation[0].totalResult;
-        return Portfolio.create({
-          createdBy: currentUser._id,
-          referenceDate: referenceDate,
-          totalAccount: totalAccount,
-          totalPortfolio: totalPortfolio,
-          totalResult: totalResult,
-          totalReturn: totalReturn,
-        });
-      }
-    })
-    .catch((error) => {
-      console.log("error", error);
+  .catch(error => {
+    console.log("error",error)
+    res.render("portfolio/add-result", {
+      errorMessage:
+        "Results are not updated because an observation already exist."
     });
+  });
 });
 
 // GET //portfolio/update-results
