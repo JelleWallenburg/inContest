@@ -27,40 +27,45 @@ router.get("/add-result", isLoggedIn, (req, res, next) => {
 router.post("/add-result", isLoggedIn, (req, res, next) => {
   const currentUser = req.session.currentUser;
   const { referenceDate, totalAccount, totalPortfolio, totalResult } = req.body;
-  
+
   //query all the performances on the reference data and
-  Portfolio.find({createdBy:currentUser._id, referenceDate: '2023-06-10T00:00:00.000Z'})
-  .then(oldObservation => {
-    console.log("this is the output", oldObservation)
-    // console.log("to add", currentUser._id, referenceDate, totalAccount, totalPortfolio, totalResult)
-    // console.log("type of old observation", typeof oldObservation)
-    // console.log("total223", test)
-    if(oldObservation.length==0){
-      console.log('create new one')
-      let totalReturn= 0;
-      Portfolio.create({
-        createdBy:currentUser._id,
-        referenceDate: referenceDate, 
-        totalAccount:totalAccount, 
-        totalPortfolio:totalPortfolio, 
-        totalResult:totalResult,
-        totalReturn:totalReturn})
-    } else {
-      console.log("it works", oldObservation[0].totalResult);
-      console.log("total result new observation", totalResult);
-      let totalReturn= totalResult - oldObservation[0].totalResult;
-      return Portfolio.create({
-        createdBy:currentUser._id,
-        referenceDate: referenceDate, 
-        totalAccount:totalAccount, 
-        totalPortfolio:totalPortfolio, 
-        totalResult:totalResult,
-        totalReturn:totalReturn})
-    }
+  Portfolio.find({
+    createdBy: currentUser._id,
+    referenceDate: "2023-06-10T00:00:00.000Z",
   })
-  .catch(error => {
-    console.log("error",error)
-  });
+    .then((oldObservation) => {
+      console.log("this is the output", oldObservation);
+      // console.log("to add", currentUser._id, referenceDate, totalAccount, totalPortfolio, totalResult)
+      // console.log("type of old observation", typeof oldObservation)
+      // console.log("total223", test)
+      if (oldObservation.length == 0) {
+        console.log("create new one");
+        let totalReturn = 0;
+        Portfolio.create({
+          createdBy: currentUser._id,
+          referenceDate: referenceDate,
+          totalAccount: totalAccount,
+          totalPortfolio: totalPortfolio,
+          totalResult: totalResult,
+          totalReturn: totalReturn,
+        });
+      } else {
+        console.log("it works", oldObservation[0].totalResult);
+        console.log("total result new observation", totalResult);
+        let totalReturn = totalResult - oldObservation[0].totalResult;
+        return Portfolio.create({
+          createdBy: currentUser._id,
+          referenceDate: referenceDate,
+          totalAccount: totalAccount,
+          totalPortfolio: totalPortfolio,
+          totalResult: totalResult,
+          totalReturn: totalReturn,
+        });
+      }
+    })
+    .catch((error) => {
+      console.log("error", error);
+    });
 });
 
 // GET //portfolio/update-results
@@ -72,9 +77,8 @@ router.get("/update-results", (req, res, next) => {
 router.get("/all", (req, res, next) => {
   Portfolio.find()
     .then((allPortfolio) => {
-      console.log()
+      console.log();
       res.render("portfolio/all-portfolio");
-      
     })
     .catch((err) => console.log(err));
 });

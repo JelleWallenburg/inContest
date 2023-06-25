@@ -1,2 +1,6 @@
 <h1>All competitions</h1>
 <a href="/new-competition"><button>Add new competition</button></a>
+{{#each allCompetition}}
+<h3>{{this.name}}</h3>
+<a href="/competition/{{this._id}}"><button>View detail</button></a>
+{{/each}}
