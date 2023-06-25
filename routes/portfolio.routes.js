@@ -27,7 +27,7 @@ router.get("/add-result", isLoggedIn, (req, res, next) => {
 router.post("/add-result", isLoggedIn, (req, res, next) => {
   const currentUser = req.session.currentUser;
   const { referenceDate, totalAccount, totalPortfolio, totalResult } = req.body;
-  
+
   //query all the performances on the reference data and
   Portfolio.find({createdBy:currentUser._id, referenceDate: '2023-06-10T00:00:00.000Z'})
   .then(oldObservation => {
@@ -83,9 +83,8 @@ router.get("/update-results", (req, res, next) => {
 router.get("/all", (req, res, next) => {
   Portfolio.find()
     .then((allPortfolio) => {
-      console.log()
+      console.log();
       res.render("portfolio/all-portfolio");
-      
     })
     .catch((err) => console.log(err));
 });

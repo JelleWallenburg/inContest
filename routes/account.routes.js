@@ -3,7 +3,7 @@ const router = express.Router();
 
 const User = require("../models/User.model");
 
-router.get("/account", (req, res, next) => {
+router.get("/", (req, res, next) => {
   User.findById(req.session.currentUser._id)
     .then((foundUser) => {
       res.render("auth/account", { foundUser });
@@ -11,7 +11,7 @@ router.get("/account", (req, res, next) => {
     .catch((err) => console.log(err));
 });
 
-router.post("/account/edit", (req, res, next) => {
+router.post("/edit", (req, res, next) => {
   const { username, password, email } = req.body;
   User.findByIdAndUpdate(req.session.currentUser._id, {
     username: username,

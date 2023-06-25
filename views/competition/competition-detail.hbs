@@ -1,0 +1,14 @@
+<h1>{{foundCompetition.name}}</h1>
+<a href="/competition"><button>Back to all competition</button></a>
+<h3>Portfolio</h3>
+{{#each portfolio}}
+  <div><h3>{{createdBy.username}}</h3>
+    <h4>Total return</h4>
+    <h5>{{totalReturn}}</h5>
+    <h5>Total account</h5>
+    <h5>{{totalAccount}}</h5>
+    <h5>Total portfolio</h5>
+    <h5>{{totalPortfolio}}</h5>
+    <h5>Total result</h5>
+    <h5>{{totalResult}}</h5></div>
+{{/each}}
