@@ -1,0 +1,22 @@
+<div id= 'edit-result'>
+    <form action="/portfolio/{{_id}}/edit_result" method= "POST">
+        <label>Reference date: {{referenceDate}} 
+        </label>
+        <label> Total account
+            <input type="text" name="totalAccount" placeholder="Your total account" />
+        </label>
+        <label> Total portfolio value
+            <input type="text" name="totalPortfolio" placeholder="Your total portfolio value" />
+        </label>
+        <label> Total result
+            <input type="text" name="totalResult" placeholder="Your total result" />
+        </label>
+        <button type="submit">Update result</button>
+    </form>
+</div>
+
+<div>
+       {{#if errorMessage}}
+          <p class="error">{{errorMessage}}</p>
+        {{/if}}
+</div>

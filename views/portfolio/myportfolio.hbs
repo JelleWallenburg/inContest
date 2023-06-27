@@ -3,18 +3,14 @@
 {{!-- to do: create portfolio overview --}}
 <div id='portfolio-overview'>
     <h2>Portfolio overview</h2> 
-</div>
-
-<div id='portfolio-crud'>
-    <h2>Create or update observations</h2>
-    <ul>
-        <li><a href= 'portfolio/add-result'>Add new results</a></li>
-       {{!-- <li><a href= 'portfolio/update-result'>Update past results</a></li> --}}
-    </ul>
+    <h3>Total result: {{#each performances}} {{#if @last}} {{this.totalReturn}} {{/if}} {{/each}} </h3>
 </div>
 
 <div id='portfolio-results'>
     <h2>Overview of observations</h2>
+    <a href= 'portfolio/add-result'>
+        <button>Add new results</button>
+    </a>
     {{#each performances}}
         <ul>
             <li>Date: {{this.referenceDate}}</li>
@@ -23,6 +19,12 @@
             <li>Total Result: {{this.totalResult}}</li>
             <li>Total Return: {{this.totalReturn}}</li>
             <li>Percentage Return: {{this.percentageReturn}}</li>
+            <a href = "portfolio/{{this._id}}/edit">
+                <button>Edit</button>
+            </a>
+            <form action="portfolio/{{this._id}}/delete" method= "post">
+                <button>Delete</button>
+            </form>
         </ul>
     <br>
     {{/each}}
