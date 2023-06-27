@@ -1,0 +1,36 @@
+<a href="/competition/{{foundCompetition._id}}"><button>Back</button></a>
+<h1>Hello, this is the edit page</h1>
+<form action="/competition/{{foundCompetition._id}}/edit" method="post">
+  <label for="">Competition name</label>
+  <input type="text" name="name" value="{{foundCompetition.name}}" />
+  <label for="">Desdcription</label>
+  <input
+    type="text"
+    name="description"
+    value="{{foundCompetition.competitionDescription}}"
+  />
+
+  {{#each newUserArray}}
+    <div>
+      {{#if isSelected}}
+        <input
+          type="checkbox"
+          id="scales"
+          name="userGroup"
+          value="{{_id}}"
+          checked
+        />
+      {{else}}
+        <input
+          type="checkbox"
+          id="scales"
+          name="userGroup"
+          value="{{_id}}"
+          unchecked
+        />
+      {{/if}}
+      <label for="scales">{{username}}</label>
+    </div>
+  {{/each}}
+  <button type="submit">Save</button>
+</form>

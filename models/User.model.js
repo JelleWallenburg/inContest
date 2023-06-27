@@ -20,6 +20,10 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    imageUrl:{
+      type: String,
+      default:"../public/images",
+    }
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
