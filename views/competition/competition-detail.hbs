@@ -1,6 +1,17 @@
-<h1>{{foundCompetition.name}}</h1>
 <a href="/competition"><button>Back to all competition</button></a>
-<h3>Portfolio</h3>
+<h1>{{foundCompetition.name}}</h1>
+{{#if isOwner}}
+  <a href="/competition/{{foundCompetition._id}}/edit"><button>Edit</button></a>
+  <form
+    action="/competition/{{foundCompetition._id}}/delete"
+    method="post"
+  ><button>Delete</button></form>
+{{/if}}
+<form action="/competition/{{foundCompetition._id}}/sync" method="post">
+  <button>Sync</button>
+</form>
+<h3>{{foundCompetition.competitionDescription}}</h3>
+<h3>Portfolios</h3>
 {{#each portfolio}}
   <div><h3>{{createdBy.username}}</h3>
     <h4>Total return</h4>
