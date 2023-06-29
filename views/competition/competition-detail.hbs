@@ -12,15 +12,18 @@
 </form>
 <h3>{{foundCompetition.competitionDescription}}</h3>
 <h3>Portfolios</h3>
+
+<table>
+  <tr>
+    <th>#</th>
+    <th>Username</th>
+    <th>Percentage Return</th>
+  </tr>
 {{#each portfolio}}
-  <div>
-    <h3>{{createdBy.username}}</h3>
-    <h4>Total return</h4>
-    <h5>{{totalReturn}}</h5>
-    <h5>Total account</h5>
-    <h5>{{totalAccount}}</h5>
-    <h5>Total portfolio</h5>
-    <h5>{{totalPortfolio}}</h5>
-    <h5>Total result</h5>
-    <h5>{{totalResult}}</h5></div>
+  <tr>
+    <td>{{inc @index}}</td>
+    <td>{{createdBy.username}}</td>
+    <td>{{percentageReturn}}</td>
+  </tr>
 {{/each}}
+</table>
