@@ -35,6 +35,7 @@ router.get("/competition/:competitionId", isLoggedIn, (req, res, next) => {
       }
       //   console.log(foundCompetition.portfolio);
       const portfolio = foundCompetition.portfolio;
+      console.log("NOW PAGE IS LOADED!", portfolio);
       res.render("competition/competition-detail", {
         foundCompetition,
         portfolio,
@@ -51,11 +52,11 @@ router.post(
     const id = req.params.competitionId;
     Competition.findOne({ _id: id })
       .then((foundCompetition) => {
-        const userGroupIds = foundCompetition.usersInGroup;
+        const userId = foundCompetition.usersInGroup;
         Portfolio.aggregate([
           {
             $match: {
-              createdBy: { $in: userGroupIds },
+              createdBy: { $in: userId },
             },
           },
           {
@@ -66,13 +67,18 @@ router.post(
           {
             $group: {
               _id: "$createdBy",
-              latestReferenceDate: { $first: "$referenceDate" },
+              referenceDate: { $first: "$referenceDate" },
               portfolioId: { $first: "$_id" },
               totalAccount: { $first: "$totalAccount" },
               totalPortfolio: { $first: "$totalPortfolio" },
               totalResult: { $first: "$totalResult" },
               totalReturn: { $first: "$totalReturn" },
               percentageReturn: { $first: "$percentageReturn" },
+            },
+          },
+          {
+            $sort: {
+              _id: 1,
             },
           },
         ]).then((foundPortfolio) => {
@@ -82,8 +88,11 @@ router.post(
           Competition.findByIdAndUpdate(id, {
             portfolio: portfolioIds,
           })
-            .then(res.redirect(`/competition/${req.params.competitionId}`))
-            .catch();
+            .then((foundItem) => {
+              console.log("PAGE REFRESH!", foundItem);
+              res.redirect(`/competition/${req.params.competitionId}`);
+            })
+            .catch((err) => console.log(err));
         });
       })
       .catch((err) => console.log(err));
@@ -156,13 +165,18 @@ router.post(
       {
         $group: {
           _id: "$createdBy",
-          latestReferenceDate: { $first: "$referenceDate" },
+          referenceDate: { $first: "$referenceDate" },
           portfolioId: { $first: "$_id" },
           totalAccount: { $first: "$totalAccount" },
           totalPortfolio: { $first: "$totalPortfolio" },
           totalResult: { $first: "$totalResult" },
           totalReturn: { $first: "$totalReturn" },
           percentageReturn: { $first: "$percentageReturn" },
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
         },
       },
     ])
@@ -210,13 +224,18 @@ router.post("/new-competition", isLoggedIn, (req, res, next) => {
     {
       $group: {
         _id: "$createdBy",
-        latestReferenceDate: { $first: "$referenceDate" },
+        referenceDate: { $first: "$referenceDate" },
         portfolioId: { $first: "$_id" },
         totalAccount: { $first: "$totalAccount" },
         totalPortfolio: { $first: "$totalPortfolio" },
         totalResult: { $first: "$totalResult" },
         totalReturn: { $first: "$totalReturn" },
         percentageReturn: { $first: "$percentageReturn" },
+      },
+    },
+    {
+      $sort: {
+        _id: 1,
       },
     },
   ])
@@ -240,7 +259,7 @@ router.post("/new-competition", isLoggedIn, (req, res, next) => {
     });
 });
 
-router.post("/competition/:competitionId/delete", (req, res, next) => {
+router.post("/:competitionId/delete", (req, res, next) => {
   Competition.findByIdAndRemove(req.params.competitionId)
     .then(() => {
       res.redirect("/competition");
