@@ -4,7 +4,7 @@ const { Schema, model } = require("mongoose");
 
 const competitionSchema = new Schema(
   {
-    name: { type: String },
+    name: { type: String, required: true },
     competitionDescription: { type: String },
     createdBy: { type: Schema.Types.ObjectId, ref: "User" },
     usersInGroup: [{ type: Schema.Types.ObjectId, ref: "User" }],
