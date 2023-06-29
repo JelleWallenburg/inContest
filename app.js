@@ -23,6 +23,16 @@ const projectName = "inContest";
 
 app.locals.appTitle = `${projectName} created with IronLauncher`;
 
+const User = require("./models/User.model");
+
+app.use(function (req, res, next) {
+  if (req.session && req.session.currentUser) {
+    res.locals.imageUrl = req.session.currentUser.imageUrl;
+  }
+  console.log(req.session.currentUser);
+  next();
+});
+
 // 👇 Start handling routes here
 const indexRoutes = require("./routes/index.routes");
 app.use("/", indexRoutes);

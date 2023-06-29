@@ -26,9 +26,10 @@ router.post(
       email: email,
       imageUrl: req.file.path,
     })
-      .then(() => {
+      .then((found) => {
         req.session.currentUser.username = username;
         req.session.currentUser.password = password;
+        req.session.currentUser.imageUrl = found.imageUrl;
         res.redirect("/account");
       })
       .catch((err) => console.log(err));
