@@ -27,15 +27,9 @@ const projectName = "inContest";
 
 app.locals.appTitle = `${projectName} created with IronLauncher`;
 
-const User = require("./models/User.model");
+app.locals.ViewSelected = [1, 2, 3, 4];
 
-app.use(function (req, res, next) {
-  if (req.session && req.session.currentUser) {
-    res.locals.imageUrl = req.session.currentUser.imageUrl;
-  }
-  console.log(req.session.currentUser);
-  next();
-});
+const User = require("./models/User.model");
 
 // 👇 Start handling routes here
 const indexRoutes = require("./routes/index.routes");
@@ -55,5 +49,13 @@ app.use("/", competitionRotues);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
+
+app.use(function (req, res, next) {
+
+    res.locals.imageUrl = req.session.currentUser.imageUrl;
+
+  console.log(req.session.currentUser);
+  next();
+});
 
 module.exports = app;

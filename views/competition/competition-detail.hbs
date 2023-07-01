@@ -1,29 +1,58 @@
-<a href="/competition"><button>Back to all competition</button></a>
-<h1>{{foundCompetition.name}}</h1>
-{{#if isOwner}}
-  <a href="/competition/{{foundCompetition._id}}/edit"><button>Edit</button></a>
-  <form
-    action="/competition/{{foundCompetition._id}}/delete"
-    method="post"
-  ><button>Delete</button></form>
+<div class="d-flex flex-row justify-content-between">
+  <div class="d-flex align-items-center align-self-center flex-row">
+    <a href="/competition">
+      <span class="material-icons md-48">arrow_back_ios</span>
+    </a>
+    <h1 class="ms-2">{{foundCompetition.name}}</h1>
+    <form
+      style="margin-bottom: 0px;"
+      class="d-flex align-items-center ms-2"
+      action="/competition/{{foundCompetition._id}}/sync"
+      method="post"
+    >
+      <button class="btn btn-outline-secondary btn-sm">Sync</button>
+    </form>
+  </div>
+  <div class="d-flex flex-row">
+    {{#if isOwner}}
+      <form
+        class="me-2"
+        action="/competition/{{foundCompetition._id}}/delete"
+        method="post"
+      ><button class="btn btn-md btn-danger">Delete</button></form>
+      <a href="/competition/{{foundCompetition._id}}/edit"><button
+          class="btn btn-md btn-primary"
+        >Edit</button></a>
+    {{/if}}
+  </div>
+</div>
+{{#if foundCompetition.competitionDescription}}
+  <h5 class="mt-4">{{foundCompetition.competitionDescription}}</h5>
+{{else}}
 {{/if}}
-<form action="/competition/{{foundCompetition._id}}/sync" method="post">
-  <button>Sync</button>
-</form>
-<h3>{{foundCompetition.competitionDescription}}</h3>
-<h3>Portfolios</h3>
-
-<table>
-  <tr>
-    <th>#</th>
-    <th>Username</th>
-    <th>Percentage Return</th>
-  </tr>
-{{#each portfolio}}
-  <tr>
-    <td>{{inc @index}}</td>
-    <td>{{createdBy.username}}</td>
-    <td>{{percentageReturn}}</td>
-  </tr>
-{{/each}}
+<table class="table mt-4">
+  <thead>
+    <tr>
+      <th scope="col">Position</th>
+      <th scope="col">Name</th>
+      <th scope="col">Percentage return</th>
+      <th scope="col">Total return</th>
+      <th scope="col">Total account</th>
+      <th scope="col">Total portfolio</th>
+      <th scope="col">Total result</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each portfolio}}
+      <tr>
+        <th scope="row">{{@index}}</th>
+        <td>{{createdBy.username}}</td>
+        <td>{{percentageReturn}}</td>
+        <td>{{totalReturn}}</td>
+        <td>{{totalAccount}}</td>
+        <td>{{totalPortfolio}}</td>
+        <td>{{totalResult}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
 </table>

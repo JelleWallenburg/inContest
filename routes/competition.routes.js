@@ -25,16 +25,13 @@ router.get("/competition/:competitionId", isLoggedIn, (req, res, next) => {
   Competition.findById(id)
     .populate({ path: "portfolio", populate: { path: "createdBy" } })
     .then((foundCompetition) => {
-      console.log("foundCompetition", foundCompetition.createdBy);
       let isOwner = false;
       if (foundCompetition.createdBy == req.session.currentUser._id) {
         isOwner = true;
       } else {
         isOwner = false;
       }
-      //   console.log(foundCompetition.portfolio);
       const portfolio = foundCompetition.portfolio;
-      console.log("NOW PAGE IS LOADED!", portfolio);
       res.render("competition/competition-detail", {
         foundCompetition,
         portfolio,
@@ -78,6 +75,7 @@ router.post(
           {
             $sort: {
               percentageReturn: -1,
+              portfolioId: 1,
             },
           },
         ]).then((foundPortfolio) => {
@@ -88,7 +86,6 @@ router.post(
             portfolio: portfolioIds,
           })
             .then((foundItem) => {
-              console.log("PAGE REFRESH!", foundItem);
               res.redirect(`/competition/${req.params.competitionId}`);
             })
             .catch((err) => console.log(err));
@@ -107,16 +104,10 @@ router.get("/competition/:competitionId/edit", isLoggedIn, (req, res, next) => {
     .populate("usersInGroup")
     .then((foundCompetition) => {
       User.find().then((allUsers) => {
-        // console.log(allUsers);
-        // console.log(foundCompetition.usersInGroup);
-
         const allUsersNames = allUsers.map((item) => item.username);
-        // console.log(allUsersNames);
         const allSelectedNames = foundCompetition.usersInGroup.map(
           (item) => item.username
         );
-        // console.log(allSelectedNames);
-
         const newUserArray = [];
         for (let i = 0; i < allUsersNames.length; i++) {
           if (allSelectedNames.includes(allUsersNames[i])) {
@@ -133,11 +124,6 @@ router.get("/competition/:competitionId/edit", isLoggedIn, (req, res, next) => {
             });
           }
         }
-
-        // console.log(newUserArray);
-        //allUsers.username => non-selected
-        //foundCompetition.usersInGroup.username => selected
-
         res.render("competition/edit-competition", {
           foundCompetition,
           newUserArray,
@@ -178,7 +164,8 @@ router.post(
       },
       {
         $sort: {
-          _id: 1,
+          percentageReturn: -1,
+          portfolioId: 1,
         },
       },
     ])
@@ -237,7 +224,8 @@ router.post("/new-competition", isLoggedIn, (req, res, next) => {
     },
     {
       $sort: {
-        _id: 1,
+        percentageReturn: -1,
+        portfolioId: 1,
       },
     },
   ])
