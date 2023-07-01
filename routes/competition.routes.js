@@ -10,7 +10,7 @@ const Competition = require("../models/Competition.model");
 const User = require("../models/User.model");
 
 router.get("/competition", isLoggedIn, (req, res, next) => {
-  console.log("test")
+  console.log("test");
   Competition.find()
     .populate("portfolio")
     .sort({ totalReturn: -1 })
@@ -32,10 +32,22 @@ router.get("/competition/:competitionId", isLoggedIn, (req, res, next) => {
         isOwner = false;
       }
       const portfolio = foundCompetition.portfolio;
+      console.log("THIS IS THE PORTFOLIO", portfolio);
+      
+      const portfolioNames = portfolio.map(
+        (item) => item.createdBy.username
+      );
+      const portalpercentageReturn = portfolio.map(
+        (item) => item.percentageReturn
+      );
+
       res.render("competition/competition-detail", {
         foundCompetition,
         portfolio,
         isOwner,
+        portfolioNames: JSON.stringify(portfolioNames),
+        portfoliopercentageReturn: JSON.stringify(portalpercentageReturn),
+        //in order to pass to the front-end to use in <script>, handbleabar can only 
       });
     })
     .catch((err) => console.log(err));
@@ -94,9 +106,6 @@ router.post(
       .catch((err) => console.log(err));
   }
 );
-
-
-
 
 router.get("/competition/:competitionId/edit", isLoggedIn, (req, res, next) => {
   const id = req.params.competitionId;

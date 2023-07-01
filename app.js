@@ -17,6 +17,10 @@ hbs.registerHelper("inc", function(value, options)
     return parseInt(value) + 1;
 });
 
+hbs.registerHelper('add', function(valueA, valueB) {
+  return valueA + valueB;
+});
+
 const app = express();
 
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
@@ -25,7 +29,7 @@ require("./config")(app);
 const capitalize = require("./utils/capitalize");
 const projectName = "inContest";
 
-app.locals.appTitle = `${projectName} created with IronLauncher`;
+app.locals.appTitle = `${projectName} - invest&compete`;
 
 app.locals.ViewSelected = [1, 2, 3, 4];
 

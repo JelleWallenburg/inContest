@@ -30,6 +30,40 @@
   <h5 class="mt-4">{{foundCompetition.competitionDescription}}</h5>
 {{else}}
 {{/if}}
+
+
+
+<div>
+  <canvas height="20vh" width="80vw" id="myChart"></canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('myChart');
+  const portfolioNames = JSON.parse('{{{portfolioNames}}}');
+  const portalpercentageReturn = JSON.parse('{{{portfoliopercentageReturn}}}');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: portfolioNames,
+      datasets: [{
+        label: '# of Votes',
+        data: portalpercentageReturn,
+        borderWidth: 1
+      }]
+    },
+
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
 <table class="table mt-4">
   <thead>
     <tr>
@@ -45,7 +79,7 @@
   <tbody>
     {{#each portfolio}}
       <tr>
-        <th scope="row">{{@index}}</th>
+        <th scope="row">{{add @index 1}}</th>
         <td>{{createdBy.username}}</td>
         <td>{{percentageReturn}}</td>
         <td>{{totalReturn}}</td>
