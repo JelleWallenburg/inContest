@@ -25,7 +25,14 @@
   <label class="form-label mb-1" for="">Password</label>
   <input class="form-control mb-3" type="password" name="password" required />
   <label class="form-label mb-1" for="">Profile picture</label>
-  <input class="form-control mb-3" type="file" name="profile-picture"/>
+  <input class="form-control mb-3" type="file" name="profile-picture" />
   <img src="{{foundUser.imageUrl}}" style="height: 240px" alt="" />
+  <div class="alert alert-dark alert-dismissible fade show mt-3">Newly uploaded
+    picture will take effect at the next login.<button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button></div>
   <button class="btn btn-primary" type="submit">Save</button>
 </form>
