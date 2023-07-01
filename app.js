@@ -31,9 +31,14 @@ const projectName = "inContest";
 
 app.locals.appTitle = `${projectName} - invest&compete`;
 
-app.locals.ViewSelected = [1, 2, 3, 4];
-
 const User = require("./models/User.model");
+
+app.use(function (req, res, next) {
+  if (req.session && req.session.currentUser && req.session.currentUser.imageUrl) {
+    res.locals.user = req.session.currentUser;
+  }
+  next();
+});
 
 // 👇 Start handling routes here
 const indexRoutes = require("./routes/index.routes");
@@ -53,13 +58,5 @@ app.use("/", competitionRotues);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
-
-app.use(function (req, res, next) {
-
-    res.locals.imageUrl = req.session.currentUser.imageUrl;
-
-  console.log(req.session.currentUser);
-  next();
-});
 
 module.exports = app;
