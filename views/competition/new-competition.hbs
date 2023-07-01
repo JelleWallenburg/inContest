@@ -1,13 +1,37 @@
-<form action="/new-competition" method="post">
-  <label for="">Competition name</label>
-  <input type="text" name="name" />
-  <label for="">Desdcription</label>
-  <input type="text" name="desdcription" />
+<div class="d-flex flex-row justify-content-between">
+  <div class="d-flex align-items-center align-self-center flex-row">
+    <a href="/competition">
+      <span class="material-icons md-48">arrow_back_ios</span>
+    </a>
+    <h1 class="ms-2">New competition</h1>
+  </div>
+</div>
+
+<form class="mt-4" style="width: 50%;" action="/new-competition" method="post">
+  <label class="form-label mb-1" for="">Competition name</label>
+  <input class="form-control mb-3" type="text" name="name" />
+  <label class="form-label mb-1" for="">Description</label>
+  <textarea
+    class="form-control mb-3"
+    name="description"
+    type="text"
+    id=""
+    cols="10"
+    rows="10"
+  ></textarea>
+  <label class="form-label mb-1" for="">Joined users</label>
   {{#each allUsers}}
-    <div>
-      <input type="checkbox" id="scales" name="userGroup" value="{{_id}}" unchecked />
-      <label for="scales">{{username}}</label>
+    <div class="form-check mb-1">
+      <input
+        type="checkbox"
+        id="scales"
+        class="form-check-input"
+        name="userGroup"
+        value="{{_id}}"
+        unchecked
+      />
+      <label class="form-check-label" for="scales">{{username}}</label>
     </div>
   {{/each}}
-  <button type="submit">Create a new competition</button>
+  <button class="btn btn-primary mt-3" type="submit">Create a new competition</button>
 </form>
