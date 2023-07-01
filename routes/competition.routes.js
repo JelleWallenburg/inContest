@@ -10,12 +10,11 @@ const Competition = require("../models/Competition.model");
 const User = require("../models/User.model");
 
 router.get("/competition", isLoggedIn, (req, res, next) => {
+  console.log("test")
   Competition.find()
     .populate("portfolio")
     .sort({ totalReturn: -1 })
     .then((allCompetition) => {
-      // console.log("allCompetition", allCompetition);
-      // console.log("allCompetition", allCompetition[0].portfolio);
       res.render("competition/all-competitions", { allCompetition });
     })
     .catch((err) => console.log(err));
@@ -95,6 +94,9 @@ router.post(
       .catch((err) => console.log(err));
   }
 );
+
+
+
 
 router.get("/competition/:competitionId/edit", isLoggedIn, (req, res, next) => {
   const id = req.params.competitionId;

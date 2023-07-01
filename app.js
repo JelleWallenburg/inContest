@@ -12,6 +12,10 @@ const express = require("express");
 // Handles the handlebars
 // https://www.npmjs.com/package/hbs
 const hbs = require("hbs");
+hbs.registerHelper("inc", function(value, options)
+{
+    return parseInt(value) + 1;
+});
 
 const app = express();
 
