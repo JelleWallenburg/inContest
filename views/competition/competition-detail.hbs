@@ -15,13 +15,60 @@
   </div>
   <div class="d-flex flex-row">
     {{#if isOwner}}
-      <form
-        class="me-2"
-        action="/competition/{{foundCompetition._id}}/delete"
-        method="post"
-      ><button class="btn btn-md btn-danger">Delete</button></form>
+      <button
+        type="button"
+        class="btn btn-md btn-danger"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+        style="height: 38px;"
+      >
+        Delete
+      </button>
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Delete this
+                competition?</h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              Are you sure to delete this competition? This action is
+              irreversible.
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >Close</button>
+              <form
+                class="me-2"
+                action="/competition/{{foundCompetition._id}}/delete"
+                method="post"
+              ><button
+                  type="submit"
+                  class="btn btn-md btn-danger"
+                >Delete</button></form>
+            </div>
+          </div>
+        </div>
+      </div>
       <a href="/competition/{{foundCompetition._id}}/edit"><button
           class="btn btn-md btn-primary"
+          style="40px"
         >Edit</button></a>
     {{/if}}
   </div>
@@ -37,41 +84,13 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  const ctx = document.getElementById('myChart');
-  const portfolioNames = JSON.parse('{{{portfolioNames}}}');
-  const portalpercentageReturn = JSON.parse('{{{portfoliopercentageReturn}}}');
-
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: portfolioNames,
-      datasets: [{
-        label: 'Percentage return',
-        data: portalpercentageReturn,
-        borderWidth: 1
-      }]
-    },
-
-    options: {
-      plugins: {
-         legend: {
-          align:'end',
-          title:{
-            position: 'end',
-          }
-   
-      },
-        title: {
-          display: true,
-          }
-          },
-      scales: {
-        y: {
-          beginAtZero: false
-        }
-      }
-    }
-  });
+  const ctx = document.getElementById('myChart'); const portfolioNames =
+  JSON.parse('{{{portfolioNames}}}'); const portalpercentageReturn =
+  JSON.parse('{{{portfoliopercentageReturn}}}'); new Chart(ctx, { type: 'bar',
+  data: { labels: portfolioNames, datasets: [{ label: 'Percentage return', data:
+  portalpercentageReturn, borderWidth: 1 }] }, options: { plugins: { legend: {
+  align:'end', title:{ position: 'end', } }, title: { display: true, } },
+  scales: { y: { beginAtZero: false } } } });
 </script>
 
 <table class="table mt-4">

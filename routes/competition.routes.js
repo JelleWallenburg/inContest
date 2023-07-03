@@ -33,10 +33,8 @@ router.get("/competition/:competitionId", isLoggedIn, (req, res, next) => {
       }
       const portfolio = foundCompetition.portfolio;
       console.log("THIS IS THE PORTFOLIO", portfolio);
-      
-      const portfolioNames = portfolio.map(
-        (item) => item.createdBy.username
-      );
+
+      const portfolioNames = portfolio.map((item) => item.createdBy.username);
       const portalpercentageReturn = portfolio.map(
         (item) => item.percentageReturn
       );
@@ -47,7 +45,7 @@ router.get("/competition/:competitionId", isLoggedIn, (req, res, next) => {
         isOwner,
         portfolioNames: JSON.stringify(portfolioNames),
         portfoliopercentageReturn: JSON.stringify(portalpercentageReturn),
-        //in order to pass to the front-end to use in <script>, handbleabar can only 
+        //in order to pass to the front-end to use in <script>, handbleabar can only
       });
     })
     .catch((err) => console.log(err));
@@ -258,9 +256,11 @@ router.post("/new-competition", isLoggedIn, (req, res, next) => {
     });
 });
 
-router.post("/:competitionId/delete", (req, res, next) => {
-  Competition.findByIdAndRemove(req.params.competitionId)
-    .then(() => {
+router.post("/competition/:competitionId/delete", (req, res, next) => {
+  const id = req.params.competitionId;
+  console.log("THIS IS THE competitionId", id);
+  Competition.findByIdAndRemove(id)
+    .then((result) => {
       res.redirect("/competition");
     })
     .catch((err) => console.log(err));
