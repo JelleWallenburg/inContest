@@ -1,18 +1,15 @@
 <div class="d-flex flex-row align-items-center justify-content-between">
-  <h1>Competitions</h1>
-  <a href="/new-competition"><button class="btn btn-md btn-primary">Add new
-      competition</button>
-  </a>
+  <h1>All portfolio</h1>
 </div>
+
 <div class="row row-cols-md-3 g-4 mt-2">
-  {{#if allCompetition}}
-    {{#each allCompetition}}
+  {{#if allUsers}}
+    {{#each allUsers}}
       <div class="col">
         <div class="card">
-          <div class="card-body"> 
-            <h3 class="class-title">{{this.name}}</h3>
-            <p>{{this.competitionDescription}}</p>
-            <a href="/competition/{{this._id}}"><button
+          <div class="card-body">
+            <h3 class="class-title">{{this.username}}</h3>
+            <a href="/all-portfolio/{{this._id}}"><button
                 class="btn btn-secondary btn-md"
               >View detail</button></a>
           </div>
@@ -24,10 +21,10 @@
       <img
         width="10%"
         style="object-fit: cover;"
-        src="images/empty_state.png"
+        src="/images/empty_state.png"
         alt=""
       />
-      <h5 class="text-primary">No competitions available, create a new one!</h5>
+      <h5 class="text-primary">No portfolio available!</h5>
       </div>
   {{/if}}
 </div>
