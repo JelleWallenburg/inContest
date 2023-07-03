@@ -31,8 +31,6 @@
 {{else}}
 {{/if}}
 
-
-
 <div>
   <canvas height="20vh" width="80vw" id="myChart"></canvas>
 </div>
@@ -48,16 +46,28 @@
     data: {
       labels: portfolioNames,
       datasets: [{
-        label: '# of Votes',
+        label: 'Percentage return',
         data: portalpercentageReturn,
         borderWidth: 1
       }]
     },
 
     options: {
+      plugins: {
+         legend: {
+          align:'end',
+          title:{
+            position: 'end',
+          }
+   
+      },
+        title: {
+          display: true,
+          }
+          },
       scales: {
         y: {
-          beginAtZero: true
+          beginAtZero: false
         }
       }
     }
