@@ -14,12 +14,22 @@
     />
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
-  <body class="d-flex flex-nowrap">
+  <body class="d-flex flex-nowrap" style="overflow: hidden; height: 100vh;">
+    <div class="d-flex h-100"></div>
     <header
       id="nav"
-      class="position-fixed d-flex col-md-2 flex-column p-4 text-bg-dark justify-content-between h-100"
+      class="d-flex col-md-2 flex-column p-4 text-bg-dark justify-content-between h-100"
     >
       <ul class="nav row">
+        <li class="nav-item">
+          <a href="/">
+            <img
+              src="/images/iconText_invert.png"
+              style="height: 48px; object-fit: cover; padding-left: 8px"
+              alt=""
+              class="mb-4"
+            /></a>
+        </li>
         <li class="nav-item">
           <a class="nav-link text-white" href="/portfolio">My portfolio</a>
         </li>
@@ -36,7 +46,7 @@
             <img
               src="{{user.imageUrl}}"
               class="rounded-circle me-2"
-              style="height: 32px; object-fit: cover; width: 32px"
+              style="height: 40px; object-fit: cover; width: 40px"
               alt=""
             />
             Account
@@ -48,7 +58,8 @@
               class="btn btn-outline-light px-4"
             >Log out</button></form>
         </li>
-        <li class="nav-item mt-4 ms-3"><p class="text-secondary">Made by
+        <li class="nav-item mt-4 ms-3"><p class="text-secondary fs-6 text-wrap">Made
+            by
             <a
               class="link-info"
               href="https://github.com/heylukechen"
@@ -59,15 +70,14 @@
               class="link-info"
               href="https://github.com/JelleWallenburg"
               target="_blank"
-            >Jelle</a>
-            in 2023</p></li>
+            >Jelle</a> with ❤️</p></li>
       </ul>
     </header>
 
     <div
       class="d-flex flex-column col-md-10 pt-3 px-4"
       id="container-sm"
-      style="margin-left: 320px;"
+      style="overflow-y: auto;"
     >
       {{{body}}}
     </div>
