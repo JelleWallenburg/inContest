@@ -41,6 +41,7 @@
         <th scope="col">Total return</th>
         <th scope="col">Percentage return</th>
         <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -52,11 +53,26 @@
           <td>{{this.totalResult}}</td>
           <td>{{this.totalReturn}}</td>
           <td>{{this.percentageReturn}}</td>
-          <td>
-            <a href="portfolio/{{this._id}}/edit">
-              <button class="btn btn-sm btn-secondary">Edit</button>
-            </a>
-          </td>
+          {{#if (evaluate @index)}}
+            <td>
+              <a href="portfolio/{{this._id}}/edit">
+                <button class="btn btn-sm btn-secondary">Edit</button>
+              </a>
+            </td>
+            <td>
+              <form action="portfolio/{{this._id}}/delete" method="POST">
+                <button
+                  class="btn btn-sm btn-danger"
+                  type="submit"
+                >Delete</button>
+              </form>
+            </td>
+          {{else}}
+            <td>
+            </td>
+            <td>
+            </td>
+          {{/if}}
         </tr>
       {{/each}}
     </tbody>
