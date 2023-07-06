@@ -1,48 +1,59 @@
-<h1>Welcome! {{user.username}}</h1>
-
-{{!-- to do: create portfolio overview --}}
-<div id='portfolio-overview'>
-    <h2>Portfolio overview</h2> 
-    <h3>Total result: {{#each performances}} {{#if @last}} {{this.totalReturn}} {{/if}} {{/each}} </h3>
-    <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="640" height="480" src="https://charts.mongodb.com/charts-incontest-qxijo/embed/charts?id=649dd7de-2ac4-420e-896b-c2e1a9dc501c&maxDataAge=3600&theme=light&autoRefresh=true"></iframe>
-</div>
-
-<div id='portfolio-results'>
-    <h2>Overview of observations</h2>
-    <a href= 'portfolio/add-result'>
-        <button>Add new results</button>
+<div class="d-flex flex-row align-items-center justify-content-between">
+  <div class="d-flex align-items-center align-self-center flex-row">
+    <h1>Welcome! {{user.username}}</h1>
+  </div>
+  <div class="d-flex flex-row">
+    <a href="portfolio/add-result">
+      <button class="btn btn-md btn-primary">Add new results</button>
     </a>
+  </div>
+</div>
 
+{{! to do: create portfolio overview }}
+<div id="portfolio-overview">
+  <h2>Portfolio overview</h2>
+  <h3>Total result:
+    {{#each performances}} {{#if @last}} {{this.totalReturn}} {{/if}} {{/each}}
+  </h3>
+  <iframe
+    style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);"
+    width="640"
+    height="480"
+    src="https://charts.mongodb.com/charts-incontest-qxijo/embed/charts?id=649dd7de-2ac4-420e-896b-c2e1a9dc501c&maxDataAge=3600&theme=light&autoRefresh=true"
+  ></iframe>
+</div>
 
+<div id="portfolio-results">
+  <h2>Overview of observations</h2>
 
-    {{#each performances}}
-        <ul>
-            <li>Date: {{this.referenceDate}}</li>
-            <li>Total Account: {{this.totalAccount}}</li>
-            <li>Total Portfolio: {{this.totalPortfolio}}</li>
-            <li>Total Result: {{this.totalResult}}</li>
-            <li>Total Return: {{this.totalReturn}}</li>
-            <li>Percentage Return: {{this.percentageReturn}}</li>
-        {{!-- {{#if evaludate @index}} --}}
-            <a href = "portfolio/{{this._id}}/edit">
-                <button>Edit</button>
+  <table class="table mt-4">
+    <thead>
+      <tr>
+        <th scope="col">Reference date</th>
+        <th scope="col">Percentage return</th>
+        <th scope="col">Total return</th>
+        <th scope="col">Total account</th>
+        <th scope="col">Total portfolio</th>
+        <th scope="col">Total result</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each performances}}
+        <tr>
+          <td>{{this.referenceDate}}</td>
+          <td>{{this.percentageReturn}}</td>
+          <td>{{this.totalAccount}}</td>
+          <td>{{this.totalPortfolio}}</td>
+          <td>{{this.totalResult}}</td>
+          <td>{{this.totalReturn}}</td>
+          <td>
+            <a href="portfolio/{{this._id}}/edit">
+              <button class="btn btn-sm btn-secondary">Edit</button>
             </a>
-            <form action="portfolio/{{this._id}}/delete" method= "post">
-                <button>Delete</button>
-            </form>
-        {{!-- {{/if}} --}}
-        </ul>
-    <br>
-    {{/each}}
-<div>
-  <canvas id="myChart"></canvas>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <div style="width: 800px;"><canvas id="acquisitions"></canvas></div>
-
-    <!-- <script type="module" src="dimensions.js"></script> -->
-    <script  src="/js/aquisitions.js"></script>
-</div>
-

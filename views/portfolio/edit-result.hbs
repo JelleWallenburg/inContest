@@ -1,22 +1,55 @@
-<div id= 'edit-result'>
-    <form action="/portfolio/{{_id}}/edit_result" method= "POST">
-        <label>Reference date: {{referenceDate}}
-        </label>
-        <label> Total account
-            <input type="text" name="totalAccount" placeholder="Your total account" />
-        </label>
-        <label> Total portfolio value
-            <input type="text" name="totalPortfolio" placeholder="Your total portfolio value" />
-        </label>
-        <label> Total result
-            <input type="text" name="totalResult" placeholder="Your total result" />
-        </label>
-        <button type="submit">Update result</button>
-    </form>
+<div class="d-flex flex-row justify-content-between">
+  <div class="d-flex align-items-center align-self-center flex-row">
+    <a href="/portfolio">
+      <span class="material-icons md-48">arrow_back_ios</span>
+    </a>
+    <h1 class="ms-2">Edit the observation</h1>
+  </div>
 </div>
 
+<form
+  action="/portfolio/{{_id}}/edit_result"
+  method="POST"
+  class="mt-4"
+  style="width: 50%"
+>
+  <label class="form-label mb-1">Reference date:
+    {{referenceDate}}
+  </label>
+  <label class="form-label mb-1">
+    Total account
+
+  </label>
+  <input
+    class="form-control mb-3"
+    type="text"
+    name="totalAccount"
+    placeholder="Your total account"
+  />
+  <label class="form-label mb-1">
+    Total portfolio value
+
+  </label>
+  <input
+    class="form-control mb-3"
+    type="text"
+    name="totalPortfolio"
+    placeholder="Your total portfolio value"
+  />
+  <label class="form-label mb-1">
+    Total result
+  </label>
+  <input
+    class="form-control mb-3"
+    type="text"
+    name="totalResult"
+    placeholder="Your total result"
+  />
+  <button class="btn btn-primary mt-3" type="submit">Update result</button>
+</form>
+
 <div>
-       {{#if errorMessage}}
-          <p class="error">{{errorMessage}}</p>
-        {{/if}}
+  {{#if errorMessage}}
+    <p class="error">{{errorMessage}}</p>
+  {{/if}}
 </div>
