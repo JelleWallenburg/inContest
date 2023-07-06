@@ -18,6 +18,14 @@ hbs.registerHelper('add', function(valueA, valueB) {
   return valueA + valueB;
 });
 
+hbs.registerHelper('evaludate', function(valueA) {
+  if (valueA == 0){
+  return true
+  } else {
+  return false
+  }
+  });
+
 const app = express();
 
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware

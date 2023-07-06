@@ -12,6 +12,9 @@
     <a href= 'portfolio/add-result'>
         <button>Add new results</button>
     </a>
+
+
+
     {{#each performances}}
         <ul>
             <li>Date: {{this.referenceDate}}</li>
@@ -20,14 +23,26 @@
             <li>Total Result: {{this.totalResult}}</li>
             <li>Total Return: {{this.totalReturn}}</li>
             <li>Percentage Return: {{this.percentageReturn}}</li>
+        {{!-- {{#if evaludate @index}} --}}
             <a href = "portfolio/{{this._id}}/edit">
                 <button>Edit</button>
             </a>
             <form action="portfolio/{{this._id}}/delete" method= "post">
                 <button>Delete</button>
             </form>
+        {{!-- {{/if}} --}}
         </ul>
     <br>
     {{/each}}
+<div>
+  <canvas id="myChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <div style="width: 800px;"><canvas id="acquisitions"></canvas></div>
+
+    <!-- <script type="module" src="dimensions.js"></script> -->
+    <script  src="/js/aquisitions.js"></script>
 </div>
 

@@ -84,10 +84,13 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  const ctx = document.getElementById('myChart'); const portfolioNames =
-  JSON.parse('{{{portfolioNames}}}'); const portalpercentageReturn =
-  JSON.parse('{{{portfoliopercentageReturn}}}'); new Chart(ctx, { type: 'bar',
-  data: { labels: portfolioNames, datasets: [{ label: 'Percentage return', data:
+  const ctx = document.getElementById('myChart'); 
+  const portfolioNames = JSON.parse('{{{portfolioNames}}}'); 
+  const portalpercentageReturn =JSON.parse('{{{portfoliopercentageReturn}}}'); 
+  new Chart(ctx, { type: 'bar',
+  data: { labels: portfolioNames, 
+  datasets: [{ label: 'Percentage return', 
+  data:
   portalpercentageReturn, borderWidth: 1 }] }, options: { plugins: { legend: {
   align:'end', title:{ position: 'end', } }, title: { display: true, } },
   scales: { y: { beginAtZero: false } } } });
