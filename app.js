@@ -14,17 +14,17 @@ const express = require("express");
 const hbs = require("hbs");
 
 // customise helper for hbs, making the function to handle index counting from 1 instead of 0
-hbs.registerHelper('add', function(valueA, valueB) {
+hbs.registerHelper("add", function (valueA, valueB) {
   return valueA + valueB;
 });
 
-hbs.registerHelper('evaludate', function(valueA) {
-  if (valueA == 0){
-  return true
+hbs.registerHelper("evaluate", function (valueA) {
+  if (valueA == 0) {
+    return false;
   } else {
-  return false
+    return true;
   }
-  });
+});
 
 const app = express();
 
@@ -40,7 +40,11 @@ const User = require("./models/User.model");
 
 //setting up the user profile picture and use the global variable: user to get access to the profile picture in layout.hbs
 app.use(function (req, res, next) {
-  if (req.session && req.session.currentUser && req.session.currentUser.imageUrl) {
+  if (
+    req.session &&
+    req.session.currentUser &&
+    req.session.currentUser.imageUrl
+  ) {
     res.locals.user = req.session.currentUser;
   }
   next();
@@ -63,7 +67,7 @@ const competitionRotues = require("./routes/competition.routes");
 app.use("/", competitionRotues);
 
 const allportfolioRoutes = require("./routes/allportfolio.routes");
-app.use("/",allportfolioRoutes);
+app.use("/", allportfolioRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
