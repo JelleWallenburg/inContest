@@ -11,15 +11,18 @@ router.get("/", isLoggedIn, (req, res, next) => {
   const currentUser = req.session.currentUser;
   console.log(currentUser);
   Portfolio.find({ createdBy: currentUser._id }).then((performances) => {
-    const ChartDataset= performances.map(performance => {
-      return {totalReturn:performance.totalReturn, referenceDate:performance.referenceDate}
+    const totalReturn= performances.map(performance => {
+      return performance.totalReturn
     })
-    console.log('test1:', ChartDataset)
-    
+    const referenceDate= performances.map(performance => {
+      return performance.referenceDate
+    })
+    console.log('ChartDataset', totalReturn, referenceDate)
     res.render("portfolio/myportfolio", {
       user: currentUser,
       performances: performances,
-      
+      totalReturn: JSON.stringify(totalReturn),
+      referenceDate: JSON.stringify(referenceDate)
     });
     console.log(performances);
   });

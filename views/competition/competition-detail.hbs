@@ -84,13 +84,10 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  const ctx = document.getElementById('myChart'); 
-  const portfolioNames = JSON.parse('{{{portfolioNames}}}'); 
-  const portalpercentageReturn =JSON.parse('{{{portfoliopercentageReturn}}}'); 
-  new Chart(ctx, { type: 'bar',
-  data: { labels: portfolioNames, 
-  datasets: [{ label: 'Percentage return', 
-  data:
+  const ctx = document.getElementById('myChart'); const portfolioNames =
+  JSON.parse('{{{portfolioNames}}}'); const portalpercentageReturn =
+  JSON.parse('{{{portfoliopercentageReturn}}}'); new Chart(ctx, { type: 'bar',
+  data: { labels: portfolioNames, datasets: [{ label: 'Percentage return', data:
   portalpercentageReturn, borderWidth: 1 }] }, options: { plugins: { legend: {
   align:'end', title:{ position: 'end', } }, title: { display: true, } },
   scales: { y: { beginAtZero: false } } } });
@@ -101,11 +98,11 @@
     <tr>
       <th scope="col">Position</th>
       <th scope="col">Name</th>
-      <th scope="col">Percentage return</th>
-      <th scope="col">Total return</th>
       <th scope="col">Total account</th>
       <th scope="col">Total portfolio</th>
       <th scope="col">Total result</th>
+      <th scope="col">Total return</th>
+      <th scope="col">Percentage return</th>
     </tr>
   </thead>
   <tbody>
@@ -113,11 +110,11 @@
       <tr>
         <th scope="row">{{add @index 1}}</th>
         <td>{{createdBy.username}}</td>
-        <td>{{percentageReturn}}</td>
-        <td>{{totalReturn}}</td>
         <td>{{totalAccount}}</td>
         <td>{{totalPortfolio}}</td>
+        <td>{{totalReturn}}</td>
         <td>{{totalResult}}</td>
+        <td>{{percentageReturn}}</td>
       </tr>
     {{/each}}
   </tbody>
