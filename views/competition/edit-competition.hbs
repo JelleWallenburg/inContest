@@ -1,21 +1,42 @@
-<a href="/competition/{{foundCompetition._id}}"><button>Back</button></a>
-<h1>Hello, this is the edit page</h1>
-<form action="/competition/{{foundCompetition._id}}/edit" method="post">
-  <label for="">Competition name</label>
-  <input type="text" name="name" value="{{foundCompetition.name}}" />
-  <label for="">Desdcription</label>
+<div class="d-flex flex-row justify-content-between">
+  <div class="d-flex align-items-center align-self-center flex-row">
+    <a href="/competition/{{foundCompetition._id}}">
+      <span class="material-icons md-48">arrow_back_ios</span>
+    </a>
+    <h1 class="ms-2">Edit competition</h1>
+  </div>
+</div>
+
+<form
+  class="mt-4"
+  style="width: 50%"
+  action="/competition/{{foundCompetition._id}}/edit"
+  method="post"
+>
+  <label class="form-label mb-1" for="">Competition name</label>
   <input
+    class="form-control mb-3"
+    type="text"
+    name="name"
+    value="{{foundCompetition.name}}"
+  />
+  <label class="form-label mb-1" for="">Description</label>
+  <textarea
+    class="form-control mb-3"
     type="text"
     name="description"
-    value="{{foundCompetition.competitionDescription}}"
-  />
-
+    cols="10"
+    rows="10"
+  >{{foundCompetition.competitionDescription}}
+  </textarea>
+  <label class="form-label mb-1" for="">Joined users</label>
   {{#each newUserArray}}
-    <div>
+    <div class="form-check mb-1">
       {{#if isSelected}}
         <input
           type="checkbox"
           id="scales"
+          class="form-check-input"
           name="userGroup"
           value="{{_id}}"
           checked
@@ -24,13 +45,14 @@
         <input
           type="checkbox"
           id="scales"
+          class="form-check-input"
           name="userGroup"
           value="{{_id}}"
           unchecked
         />
       {{/if}}
-      <label for="scales">{{username}}</label>
+      <label class="form-check-label" for="scales">{{username}}</label>
     </div>
   {{/each}}
-  <button type="submit">Save</button>
+  <button class="btn btn-primary mt-3" type="submit">Save</button>
 </form>

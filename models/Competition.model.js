@@ -7,7 +7,9 @@ const competitionSchema = new Schema(
     name: { type: String, required: true },
     competitionDescription: { type: String },
     createdBy: { type: Schema.Types.ObjectId, ref: "User" },
-    usersInGroup: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    usersInGroup: [
+      { type: Schema.Types.ObjectId, ref: "User", required: true },
+    ],
     portfolio: [{ type: Schema.Types.ObjectId, ref: "Portfolio" }],
   },
   {

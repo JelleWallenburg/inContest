@@ -20,9 +20,11 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    imageUrl:{
+    imageUrl: {
       type: String,
-    }
+      default:
+        "https://res.cloudinary.com/dbh1qi5aa/image/upload/v1688212434/inContest/outline_face_5_black_36dp_b1lvnk.png",
+    },
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

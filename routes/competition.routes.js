@@ -10,12 +10,11 @@ const Competition = require("../models/Competition.model");
 const User = require("../models/User.model");
 
 router.get("/competition", isLoggedIn, (req, res, next) => {
+  console.log("test");
   Competition.find()
     .populate("portfolio")
     .sort({ totalReturn: -1 })
     .then((allCompetition) => {
-      console.log("allCompetition", allCompetition);
-      console.log("allCompetition", allCompetition[0].portfolio);
       res.render("competition/all-competitions", { allCompetition });
     })
     .catch((err) => console.log(err));
@@ -26,20 +25,27 @@ router.get("/competition/:competitionId", isLoggedIn, (req, res, next) => {
   Competition.findById(id)
     .populate({ path: "portfolio", populate: { path: "createdBy" } })
     .then((foundCompetition) => {
-      console.log("foundCompetition", foundCompetition.createdBy);
       let isOwner = false;
       if (foundCompetition.createdBy == req.session.currentUser._id) {
         isOwner = true;
       } else {
         isOwner = false;
       }
-      //   console.log(foundCompetition.portfolio);
       const portfolio = foundCompetition.portfolio;
-      console.log("NOW PAGE IS LOADED!", portfolio);
+      console.log("THIS IS THE PORTFOLIO", portfolio);
+
+      const portfolioNames = portfolio.map((item) => item.createdBy.username);
+      const portalpercentageReturn = portfolio.map(
+        (item) => item.percentageReturn
+      );
+
       res.render("competition/competition-detail", {
         foundCompetition,
         portfolio,
         isOwner,
+        portfolioNames: JSON.stringify(portfolioNames),
+        portfoliopercentageReturn: JSON.stringify(portalpercentageReturn),
+        //in order to pass to the front-end to use in <script>, handbleabar can only
       });
     })
     .catch((err) => console.log(err));
@@ -78,7 +84,8 @@ router.post(
           },
           {
             $sort: {
-              _id: 1,
+              percentageReturn: -1,
+              portfolioId: 1,
             },
           },
         ]).then((foundPortfolio) => {
@@ -89,7 +96,6 @@ router.post(
             portfolio: portfolioIds,
           })
             .then((foundItem) => {
-              console.log("PAGE REFRESH!", foundItem);
               res.redirect(`/competition/${req.params.competitionId}`);
             })
             .catch((err) => console.log(err));
@@ -105,16 +111,10 @@ router.get("/competition/:competitionId/edit", isLoggedIn, (req, res, next) => {
     .populate("usersInGroup")
     .then((foundCompetition) => {
       User.find().then((allUsers) => {
-        // console.log(allUsers);
-        // console.log(foundCompetition.usersInGroup);
-
         const allUsersNames = allUsers.map((item) => item.username);
-        // console.log(allUsersNames);
         const allSelectedNames = foundCompetition.usersInGroup.map(
           (item) => item.username
         );
-        // console.log(allSelectedNames);
-
         const newUserArray = [];
         for (let i = 0; i < allUsersNames.length; i++) {
           if (allSelectedNames.includes(allUsersNames[i])) {
@@ -131,11 +131,6 @@ router.get("/competition/:competitionId/edit", isLoggedIn, (req, res, next) => {
             });
           }
         }
-
-        // console.log(newUserArray);
-        //allUsers.username => non-selected
-        //foundCompetition.usersInGroup.username => selected
-
         res.render("competition/edit-competition", {
           foundCompetition,
           newUserArray,
@@ -176,7 +171,8 @@ router.post(
       },
       {
         $sort: {
-          _id: 1,
+          percentageReturn: -1,
+          portfolioId: 1,
         },
       },
     ])
@@ -235,7 +231,8 @@ router.post("/new-competition", isLoggedIn, (req, res, next) => {
     },
     {
       $sort: {
-        _id: 1,
+        percentageReturn: -1,
+        portfolioId: 1,
       },
     },
   ])
@@ -259,9 +256,11 @@ router.post("/new-competition", isLoggedIn, (req, res, next) => {
     });
 });
 
-router.post("/:competitionId/delete", (req, res, next) => {
-  Competition.findByIdAndRemove(req.params.competitionId)
-    .then(() => {
+router.post("/competition/:competitionId/delete", (req, res, next) => {
+  const id = req.params.competitionId;
+  console.log("THIS IS THE competitionId", id);
+  Competition.findByIdAndRemove(id)
+    .then((result) => {
       res.redirect("/competition");
     })
     .catch((err) => console.log(err));

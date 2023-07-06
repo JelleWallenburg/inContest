@@ -11,9 +11,15 @@ router.get("/", isLoggedIn, (req, res, next) => {
   const currentUser = req.session.currentUser;
   console.log(currentUser);
   Portfolio.find({ createdBy: currentUser._id }).then((performances) => {
+    const ChartDataset= performances.map(performance => {
+      return {totalReturn:performance.totalReturn, referenceDate:performance.referenceDate}
+    })
+    console.log('test1:', ChartDataset)
+    
     res.render("portfolio/myportfolio", {
       user: currentUser,
       performances: performances,
+      
     });
     console.log(performances);
   });
@@ -33,11 +39,8 @@ router.post("/add-result", isLoggedIn, (req, res, next) => {
   Portfolio.find({createdBy:currentUser._id, referenceDate: '2023-01-01T00:00:00.000+00:00'})
   .then(oldObservation => {
     console.log("this is the output", oldObservation)
-    // console.log("to add", currentUser._id, referenceDate, totalAccount, totalPortfolio, totalResult)
-    // console.log("type of old observation", typeof oldObservation)
-    // console.log("total223", test)
     if(oldObservation.length==0){
-      console.log('create new one')
+      console.log('create new observation')
       let totalReturn= 0;
       let percentageReturn= 0;
       Portfolio.create({
@@ -49,30 +52,32 @@ router.post("/add-result", isLoggedIn, (req, res, next) => {
         totalReturn:totalReturn,
         percentageReturn: percentageReturn
       })
+      .then(res.render("portfolio/add-result", {errorMessage: "First results updated"}))
     } else {
-      console.log("it works", oldObservation[0].totalResult);
-      console.log("total result new observation", totalResult);
+      console.log("Reference observation", oldObservation[0].totalResult);
       let totalReturn= totalResult - oldObservation[0].totalResult;
       let percentageReturn= totalReturn/totalAccount;
-      return Portfolio.create({
+      Portfolio.create({
         createdBy:currentUser._id,
         referenceDate: referenceDate, 
         totalAccount:totalAccount, 
         totalPortfolio:totalPortfolio, 
         totalResult:totalResult,
         totalReturn:totalReturn,
-        percentageReturn: percentageReturn})
+        percentageReturn: percentageReturn
+      })
+      .then(test => res.render("portfolio/add-result", {errorMessage: "Results updated"}))
+      .catch(error => {
+        console.log("error",error)
+        res.render("portfolio/add-result", {
+          errorMessage:
+            "Results are not updated because an observation already exist."
+        });
+      });
     }
-    res.render("portfolio/add-result",
-      {errorMessage: "Results updated"})
+   
   })
-  .catch(error => {
-    console.log("error",error)
-    res.render("portfolio/add-result", {
-      errorMessage:
-        "Results are not updated because an observation already exist."
-    });
-  });
+
 });
 
 // EDIT //{{id}}/edit
@@ -84,15 +89,44 @@ router.get("/:_id/edit", (req, res) => {
     res.render("portfolio/edit-result", result)})
 })
 
+// POST EDIT
 router.post("/:_id/edit_result", (req,res) => {
+  const currentUser = req.session.currentUser;
+  console.log('current user id', currentUser._id, 'current Observation id', req.params._id);
+  console.log('req.body', req.body);
   const {totalAccount, totalPortfolio, totalResult} = req.body;
-  console.log(totalAccount, totalPortfolio, totalResult);
-  Portfolio.findOneAndUpdate(req.params, {totalAccount: totalAccount, totalPortfolio:totalPortfolio, totalResult:totalResult})
-  .then( result => {
-    console.log(result)
-    res.redirect("/")
+
+  Portfolio.findById(req.params)
+  .then(result => {
+    console.log('date to be edited', result.referenceDate)
+    Portfolio.find({createdBy:currentUser._id})
+    .then(oldObservations => {
+      // console.log("this is the oldestObservation", oldObservations[0].referenceDate.getTime())
+      // console.log('date to be edited again', result.referenceDate.getTime())
+      if(result.referenceDate.getTime() == oldObservations[0].referenceDate.getTime()){
+        console.log("equal dates -> oldest")
+        let totalReturn= 0;
+        let percentageReturn= 0;
+        Portfolio.findOneAndUpdate(req.params, {totalAccount: totalAccount, totalPortfolio:totalPortfolio, totalResult:totalResult, totalReturn:totalReturn, percentageReturn:percentageReturn})
+        .then( result => {
+          console.log(result)
+          res.redirect("/")
+        })
+        .catch(error => console.log("there is an error, equal dates", error))
+      } else {
+        console.log("note equal")
+        let totalReturn= totalResult - oldObservations[0].totalResult;
+        let percentageReturn= totalReturn/totalAccount;
+        Portfolio.findOneAndUpdate(req.params, {totalAccount: totalAccount, totalPortfolio:totalPortfolio, totalResult:totalResult, totalReturn:totalReturn, percentageReturn:percentageReturn})
+        .then( result => {
+        console.log(result)
+        res.redirect("/")
+        })
+        .catch(error => console.log("there is an error, unequal dates", error))
+      }
+    })
   })
-  .catch(error => console.log("there is an error", error))
+  .catch(error => console.log('nothing to edit', error))
 })
 
 // DELETE //{{id}}/delete
@@ -104,10 +138,9 @@ router.post("/:_id/delete", (req,res) =>{
   )
 });
 
-
 // GET //portfolio/update-results
-router.get("/update-results", (req, res, next) => {
-  res.render("portfolio/update-results");
-});
+// router.get("/update-results", (req, res, next) => {
+//   res.render("portfolio/update-results");
+// });
 
 module.exports = router;

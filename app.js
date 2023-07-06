@@ -13,6 +13,19 @@ const express = require("express");
 // https://www.npmjs.com/package/hbs
 const hbs = require("hbs");
 
+// customise helper for hbs, making the function to handle index counting from 1 instead of 0
+hbs.registerHelper('add', function(valueA, valueB) {
+  return valueA + valueB;
+});
+
+hbs.registerHelper('evaludate', function(valueA) {
+  if (valueA == 0){
+  return true
+  } else {
+  return false
+  }
+  });
+
 const app = express();
 
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
@@ -21,15 +34,15 @@ require("./config")(app);
 const capitalize = require("./utils/capitalize");
 const projectName = "inContest";
 
-app.locals.appTitle = `${projectName} created with IronLauncher`;
+app.locals.appTitle = `${projectName} - invest&compete`;
 
 const User = require("./models/User.model");
 
+//setting up the user profile picture and use the global variable: user to get access to the profile picture in layout.hbs
 app.use(function (req, res, next) {
-  if (req.session && req.session.currentUser) {
-    res.locals.imageUrl = req.session.currentUser.imageUrl;
+  if (req.session && req.session.currentUser && req.session.currentUser.imageUrl) {
+    res.locals.user = req.session.currentUser;
   }
-  console.log(req.session.currentUser);
   next();
 });
 
@@ -48,6 +61,9 @@ app.use("/portfolio", portfolioRoutes);
 
 const competitionRotues = require("./routes/competition.routes");
 app.use("/", competitionRotues);
+
+const allportfolioRoutes = require("./routes/allportfolio.routes");
+app.use("/",allportfolioRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
