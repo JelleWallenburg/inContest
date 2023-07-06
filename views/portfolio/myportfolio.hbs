@@ -35,11 +35,11 @@
     <thead>
       <tr>
         <th scope="col">Reference date</th>
-        <th scope="col">Percentage return</th>
-        <th scope="col">Total return</th>
         <th scope="col">Total account</th>
         <th scope="col">Total portfolio</th>
         <th scope="col">Total result</th>
+        <th scope="col">Total return</th>
+        <th scope="col">Percentage return</th>
         <th></th>
       </tr>
     </thead>
@@ -47,11 +47,11 @@
       {{#each performances}}
         <tr>
           <td>{{this.referenceDate}}</td>
-          <td>{{this.percentageReturn}}</td>
           <td>{{this.totalAccount}}</td>
           <td>{{this.totalPortfolio}}</td>
           <td>{{this.totalResult}}</td>
           <td>{{this.totalReturn}}</td>
+          <td>{{this.percentageReturn}}</td>
           <td>
             <a href="portfolio/{{this._id}}/edit">
               <button class="btn btn-sm btn-secondary">Edit</button>
